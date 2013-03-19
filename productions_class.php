@@ -721,7 +721,7 @@ Class HCProductionDates{
 			if($type_data->dates != ''){
 				//parse the dates
 				$dates_array = explode("\n",trim($type_data->dates));
-				ddprint($dates_array);
+				//ddprint($dates_array);
 								
 				$dates_array2 = array();
 				foreach($dates_array as $date_line){
