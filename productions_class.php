@@ -201,7 +201,7 @@ Class HCProduction{
 				}
 			}
 		}
-				
+		
 		//we need current data to compare to, so we know if we have to delete at the end,
 		//and so we know if we really have anything to save at all.
 		$in_database = $this->production_data($production_id);
@@ -243,7 +243,6 @@ Class HCProduction{
 			}
 		}
 		
-		
 		//The update fields might actually need to be deleted after all
 		//If the only two fields with data are the id fields, we can delete
 		foreach($to_update as $ukey => $delete_candidate){
@@ -271,11 +270,19 @@ Class HCProduction{
 			foreach($in_database[$form_array['id']] as $col => $data){
 				if(isset($form_array[$col])){
 					//The html form had the field, or the box was checked
+
+					//production_id is numeric at this point, but is a string after being pulled from the database. Best to fix it now so the test will work properly
+					if($col == 'production_id'){
+						$form_array[$col] = (string) $form_array[$col];
+					}
+
 					if($form_array[$col] === $data){
 						//The form and the database match. No need to save.
 					}else{
 						//The form and the database do not match.
 						$save = true;
+						//This also supercedes the else statement below (we don't want $save to end up false for all of the for data after it has been proven true for some of the form data.
+						break;
 					}
 				}else{
 					//The html form didn't have the field/the box wasn't checked
@@ -297,6 +304,7 @@ Class HCProduction{
 				//There was nothing to save.
 				unset($to_update[$ukey]);
 			}
+			//ddprint($to_update);
 		}
 		
 		//Let's finally alter the database!
@@ -713,7 +721,7 @@ Class HCProductionDates{
 			if($type_data->dates != ''){
 				//parse the dates
 				$dates_array = explode("\n",trim($type_data->dates));
-				//ddprint($dates_array);
+				ddprint($dates_array);
 								
 				$dates_array2 = array();
 				foreach($dates_array as $date_line){

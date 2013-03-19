@@ -364,6 +364,7 @@ function running_dates_meta() {
 	
 	<input type="hidden" value="NotAuto" name="hc_production_autosave_check" />
 	<?php
+	ddprint( $_POST);
 }
 
 function exact_running_dates_meta() {
@@ -448,7 +449,7 @@ function exact_running_dates_meta() {
 add_action('save_post', 'hc_production_save_details');
 function hc_production_save_details(){
 	global $post;
-
+	
 	if($_POST['hc_production_autosave_check']){
 		//Save the basic information
 		HCProductionDates::save_dates(array(
